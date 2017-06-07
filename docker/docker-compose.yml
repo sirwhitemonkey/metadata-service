@@ -1,0 +1,18 @@
+version: '2'
+services:
+  metadata:
+     build: .
+     hostname: metadata
+     container_name: metadata
+     image: moxion/metadata
+     restart: always
+     networks:
+       - public
+     ports:
+       - "7002:7002"
+     volumes:
+       - ./moxion:/service/
+
+networks:
+  public:
+    driver: bridge

@@ -1,0 +1,65 @@
+<html>
+<head>
+	<title>Test websocket</title>
+	<script>
+	var socket;
+	
+	function openSocket() {
+		socket  = new WebSocket("ws://localhost:8000/asset/test");
+		socket.onopen = onOpen;
+		socket.onclose = onClose;
+		socket.onmessage =  onMessageReceived;
+	}
+	
+	function closeSocket() {
+		socket.onclose = function(){};
+		socket.close();
+	}
+	function onOpen() {
+		console.log("Websocket connection opened");
+	}
+	
+	function onClose() {
+		console.log("Websocket connection closed");
+	}
+	
+	function sendMessage() {
+		var message = document.getElementById("message").value;
+		console.log("Websocket send message:" + message);
+		socket.send(message);
+	}
+	
+	function onMessageReceived(event) {
+		try {
+			//var message = JSON.parse(event.data);
+			var message = event.data;
+			console.log("Websocket received message:" + message);	
+		} catch(e) {
+			console.log(e);
+		}
+		
+	}
+
+	
+	</script>
+</head>
+<body>
+Test websocket
+<form>
+<table>
+<tr>
+	<td><input type="button" value="Open" onclick="openSocket()"/></td>
+</tr>
+<tr>
+	<td>Message:<input type="text" id="message"/></td>
+</tr>
+<tr>
+	<td><input type="button" value="Send" onclick="sendMessage()"/></td>
+</tr>
+<tr>
+	<td><input type="button" value="Close" onclick="closeSocket()"/></td>
+</tr>		
+</table>
+</form>
+</body>
+</html>
